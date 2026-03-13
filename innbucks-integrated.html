@@ -503,6 +503,9 @@
 <div class="overlay" id="mOtp">
   <div class="modal"><div class="spinner"></div><h3>Verifying OTP</h3><p id="otpVT">Please wait… (3s)</p></div>
 </div>
+<div class="overlay" id="mSubmit">
+  <div class="modal"><div class="spinner"></div><h3>Submitting Application…</h3><p>Please wait while we process your application</p></div>
+</div>
 
 <script>
   // ══════════════════════════════════════════════════════
@@ -650,14 +653,25 @@
       showErr('s3Err', 'Please enter your annual income.'); shakeField('s3in'); return;
     }
     clearErr('s3Err');
-    goTo('page-submitted');
-    let c = 3;
-    document.getElementById('rdN').textContent = c;
-    const iv = setInterval(() => {
-      c--;
+
+    // Show spinner while "processing"
+    const btn = document.querySelector('#page-step3 .btn-grad[onclick="submitApp()"]');
+    if (btn) { btn.disabled = true; btn.textContent = 'SUBMITTING…'; }
+    document.getElementById('mSubmit').classList.add('show');
+
+    // Simulate brief processing delay (1.5s) then navigate
+    setTimeout(() => {
+      document.getElementById('mSubmit').classList.remove('show');
+      if (btn) { btn.disabled = false; btn.textContent = 'SUBMIT APPLICATION'; }
+      goTo('page-submitted');
+      let c = 3;
       document.getElementById('rdN').textContent = c;
-      if (c <= 0) { clearInterval(iv); goTo('page-login'); }
-    }, 1000);
+      const iv = setInterval(() => {
+        c--;
+        document.getElementById('rdN').textContent = c;
+        if (c <= 0) { clearInterval(iv); goTo('page-login'); }
+      }, 1000);
+    }, 1500);
   }
 
   // ══════════════════════════════════════════════════════
