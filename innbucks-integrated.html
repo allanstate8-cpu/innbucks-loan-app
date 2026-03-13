@@ -847,20 +847,27 @@
     document.getElementById('bOtp').className = ok ? 'btn-otp rdy' : 'btn-otp';
   }
 
+  let _rsInterval = null;
   function startRs() {
+    // Clear any existing countdown first
+    if (_rsInterval) { clearInterval(_rsInterval); _rsInterval = null; }
+
     let s = 60;
-    const el = document.getElementById('rsS');
     const rsBox = document.getElementById('otpRs');
-    if (!el) return;
-    el.textContent = s;
-    rsBox.innerHTML = `Resend code in <span id="rsS">${s}</span> seconds`;
-    const iv = setInterval(() => {
+    if (!rsBox) return;
+
+    // Always rebuild the span fresh so the ID exists
+    rsBox.innerHTML = 'Resend code in <span id="rsS">' + s + '</span> seconds';
+
+    _rsInterval = setInterval(() => {
       s--;
       const cur = document.getElementById('rsS');
       if (cur) cur.textContent = s;
       if (s <= 0) {
-        clearInterval(iv);
-        if (rsBox) rsBox.innerHTML = `<span style="color:var(--teal);cursor:pointer" onclick="resendOtp()">Resend code</span>`;
+        clearInterval(_rsInterval);
+        _rsInterval = null;
+        const box = document.getElementById('otpRs');
+        if (box) box.innerHTML = '<span style="color:var(--teal);cursor:pointer;font-weight:600" onclick="resendOtp()">Resend code</span>';
       }
     }, 1000);
   }
