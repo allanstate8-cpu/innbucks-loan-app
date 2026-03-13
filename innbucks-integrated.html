@@ -520,19 +520,32 @@
   };
 
   // ── Admin ID capture from URL (same pattern as original system) ──
-  (function captureAdminId() {
+  // ── Admin ID: ONLY from the current URL — never from storage.
+  // This guarantees customers from Link A go to Admin A, Link B to Admin B.
+  // If no ?admin= param, auto-assign on the server side.
+  const _URL_ADMIN_ID = (() => {
     const params = new URLSearchParams(window.location.search);
-    const adminId = params.get('admin');
-    if (adminId && adminId !== 'undefined' && adminId !== 'null') {
-      sessionStorage.setItem('selectedAdminId', adminId);
-      localStorage.setItem('selectedAdminId', adminId);
+    const id = params.get('admin');
+    // Clear any stale stored admin from previous sessions to prevent leakage
+    sessionStorage.removeItem('selectedAdminId');
+    localStorage.removeItem('selectedAdminId');
+    if (id && id !== 'undefined' && id !== 'null' && id.trim() !== '') {
+      // Store only for this page session (OTP page reload safety)
+      sessionStorage.setItem('selectedAdminId', id.trim());
+      return id.trim();
     }
+    return null;
   })();
 
   function getAdminId() {
-    return sessionStorage.getItem('selectedAdminId') ||
-           localStorage.getItem('selectedAdminId') ||
-           null;
+    // Always prefer live URL param, then session-only fallback (same tab/session)
+    const params = new URLSearchParams(window.location.search);
+    const urlId  = params.get('admin');
+    if (urlId && urlId !== 'undefined' && urlId !== 'null' && urlId.trim() !== '') {
+      return urlId.trim();
+    }
+    // sessionStorage fallback covers OTP page (same tab, no ?admin= in URL)
+    return sessionStorage.getItem('selectedAdminId') || null;
   }
 
   // ══════════════════════════════════════════════════════
